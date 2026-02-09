@@ -6,17 +6,18 @@ const math_1 = require("../../math");
 const promises_1 = require("../../promises");
 const errors_1 = require("./errors");
 /**
- *
+ * @abstraction http is a wrapper around the Fetch API that adds support for request timeouts and retries.
  * @param request
  * @param requestInit
- * @param options
- * @returns
+ * @returns Promise<Response>
+ * @throws HttpError - if the response status is not ok (2xx).
+ * @throws Error - if the request fails due to network errors.
  */
-function http(request, requestInit = {}, options) {
-    const { reqTimeOutTimer, controller } = requestTimeout(options);
+function http(request, requestInit = {}) {
+    const { reqTimeOutTimer, controller } = requestTimeout(requestInit);
     let retryCount = 0;
-    const maxRetries = (0, math_1.parseIntOrZero)(options?.retry?.maxRetries);
-    const retryDelay = (0, math_1.parseIntOrZero)(options?.retry?.retryDelay);
+    const maxRetries = (0, math_1.parseIntOrZero)(requestInit?.retry?.maxRetries);
+    const retryDelay = (0, math_1.parseIntOrZero)(requestInit?.retry?.retryDelay);
     if (requestInit.signal)
         controller?.signal?.addEventListener('abort', e => requestInit.signal?.dispatchEvent(e));
     else
@@ -37,7 +38,7 @@ function http(request, requestInit = {}, options) {
         if (retryCount >= maxRetries - 1)
             throw error;
         retryCount++;
-        const abort = options?.retry?.onRetry?.({ request, requestInit, options, retryCount, error, response });
+        const abort = requestInit?.retry?.onRetry?.({ request, requestInit, retryCount, error, response });
         if (abort)
             throw error;
         return (0, promises_1.delay)(retryDelay).then(() => doRequest());

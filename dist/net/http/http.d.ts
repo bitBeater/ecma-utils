@@ -1,7 +1,6 @@
 export type OnRetryParams = {
     request: Request | string | URL;
     requestInit?: RequestInit;
-    options?: RequestOptions;
     response?: Response;
     error?: Error;
     retryCount: number;
@@ -18,23 +17,19 @@ export interface HttpRetryOptions {
     maxRetries?: number;
     onRetry?: RetryCallBack;
 }
-export interface RequestOptions {
-    retry?: HttpRetryOptions;
-    timeout?: number;
-}
-export interface HttpRequest extends Request {
+export interface HttpRequestInit extends RequestInit {
     timeout?: number;
     retry?: HttpRetryOptions;
 }
-type HttpRequestInput = Request | string | URL;
+export type HttpRequestInput = Request | string | URL;
 /**
- *
+ * @abstraction http is a wrapper around the Fetch API that adds support for request timeouts and retries.
  * @param request
  * @param requestInit
- * @param options
- * @returns
+ * @returns Promise<Response>
+ * @throws HttpError - if the response status is not ok (2xx).
+ * @throws Error - if the request fails due to network errors.
  */
-export declare function http(request: HttpRequestInput, requestInit?: RequestInit, options?: RequestOptions): Promise<Response>;
-export declare function toURL(httpRequest: HttpRequest): URL;
-export {};
+export declare function http(request: HttpRequestInput, requestInit?: HttpRequestInit): Promise<Response>;
+export declare function toURL(httpRequest: HttpRequestInput): URL;
 //# sourceMappingURL=http.d.ts.map

@@ -23,7 +23,7 @@ describe('net/http', () => {
 
         const start = Date.now();
         try {
-            const response = await (await http(`http://localhost:1338`, {}, { timeout })).text();
+            const response = await (await http(`http://localhost:1338`, { timeout })).text();
             assert(false, `should throw timeout error ${response}`);
         } catch (e) {
             error = e as Error;
@@ -47,7 +47,7 @@ describe('net/http', () => {
 
         const start = Date.now();
         try {
-            const resp = await (await http(`http://localhost:1338`, undefined, { timeout })).text();
+            const resp = await (await http(`http://localhost:1338`, { timeout })).text();
             assert.equal(resp, 'Hello World');
         } catch (e) {
             assert(false, `shouln not throw errors ${e}`);
@@ -87,7 +87,7 @@ describe('net/http', () => {
 
 
         try {
-            await http(`http://localhost:1339`, {}, { retry: { maxRetries, onRetry } });
+            await http(`http://localhost:1339`, { retry: { maxRetries, onRetry } });
         } catch (error) { }
 
 
@@ -119,7 +119,7 @@ describe('net/http', () => {
         ).listen(1339);
 
         try {
-            await http(`http://localhost:1339`, {}, { retry: { maxRetries } });
+            await http(`http://localhost:1339`, { retry: { maxRetries } });
         } catch (e) { }
 
         assert.equal(retires, maxRetries);
@@ -144,7 +144,7 @@ describe('net/http', () => {
         const startTime = Date.now();
 
         try {
-            await http(`http://localhost:1339`, {}, { retry: { maxRetries, retryDelay } });
+            await http(`http://localhost:1339`, { retry: { maxRetries, retryDelay } });
         } catch (error) { }
 
         const endTime = Date.now();

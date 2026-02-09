@@ -6,7 +6,6 @@ import { HttpError } from './errors';
 export type OnRetryParams = {
 	request: Request | string | URL;
 	requestInit?: RequestInit;
-	options?: RequestOptions
 	response?: Response;
 	error?: Error;
 	retryCount: number;
@@ -26,35 +25,30 @@ export interface HttpRetryOptions {
 	onRetry?: RetryCallBack;
 }
 
-export interface RequestOptions {
-	retry?: HttpRetryOptions;
-	timeout?: number;
-}
-
 // export type HttpRequest = Request | string | URL;
 
-export interface HttpRequest extends Request {
+export interface HttpRequestInit extends RequestInit {
 	timeout?: number;
 	retry?: HttpRetryOptions;
 }
 
-type HttpRequestInput = Request | string | URL;
-
-
+export type HttpRequestInput = Request | string | URL;
 
 
 /**
- * 
+ * @abstraction http is a wrapper around the Fetch API that adds support for request timeouts and retries.
  * @param request 
  * @param requestInit 
- * @param options 
- * @returns 
+ * @returns Promise<Response>
+ * @throws HttpError - if the response status is not ok (2xx).
+ * @throws Error - if the request fails due to network errors.
  */
-export function http(request: HttpRequestInput, requestInit: RequestInit = {}, options?: RequestOptions): Promise<Response> {
-	const { reqTimeOutTimer, controller } = requestTimeout(options);
+export function http(request: HttpRequestInput, requestInit: HttpRequestInit = {}): Promise<Response> {
+	const { reqTimeOutTimer, controller } = requestTimeout(requestInit);
 	let retryCount = 0;
-	const maxRetries = parseIntOrZero(options?.retry?.maxRetries);
-	const retryDelay = parseIntOrZero(options?.retry?.retryDelay);
+
+	const maxRetries = parseIntOrZero(requestInit?.retry?.maxRetries);
+	const retryDelay = parseIntOrZero(requestInit?.retry?.retryDelay);
 
 	if (requestInit.signal) controller?.signal?.addEventListener('abort', e => requestInit.signal?.dispatchEvent(e));
 	else requestInit.signal = controller?.signal;
@@ -80,7 +74,7 @@ export function http(request: HttpRequestInput, requestInit: RequestInit = {}, o
 
 			retryCount++;
 
-			const abort = options?.retry?.onRetry?.({ request, requestInit, options, retryCount, error, response });
+			const abort = requestInit?.retry?.onRetry?.({ request, requestInit, retryCount, error, response });
 			if (abort) throw error;
 
 			return delay(retryDelay).then(() => doRequest());
@@ -90,13 +84,15 @@ export function http(request: HttpRequestInput, requestInit: RequestInit = {}, o
 	return doRequest();
 }
 
-export function toURL(httpRequest: HttpRequest): URL {
+export function toURL(httpRequest: HttpRequestInput): URL {
 	// @ts-ignore
 	return new URL(httpRequest?.url || httpRequest.toString());
 }
 
-function requestTimeout(options?: RequestOptions) {
+function requestTimeout(options?: HttpRequestInit) {
+
 	if (!options?.timeout) return {};
+
 	const controller = new AbortController();
 	const reqTimeOutTimer = setTimeout(() => controller.abort(), options.timeout);
 	return { reqTimeOutTimer, controller };
