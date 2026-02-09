@@ -1,7 +1,7 @@
 import { createServer } from 'http';
 import assert from 'node:assert';
 import { after, describe, it } from 'node:test';
-import { RetryCallBack, http } from '../../src/net/http';
+import { RetryCallBack, http } from '@bitbeater/ecma-utils/http';
 
 const serverResponse = 'Hello World';
 const serverResponseDelay = 2000;
@@ -62,7 +62,7 @@ describe('net/http', () => {
         clearTimeout(timer);
     });
 
-    it('retries callback', async () => {
+    it('retries callback', async context => {
         const server = createServer((_req, resp) => {
             retires++;
             resp.statusCode = 500;
@@ -77,11 +77,11 @@ describe('net/http', () => {
 
 
 
-        const onRetry: RetryCallBack = (error, req, resp, options) => {
-            assert(error instanceof Error);
-            assert(!!req);
-            assert(resp instanceof Response);
-            assert.equal(options?.retryCount, retires);
+        const onRetry: RetryCallBack = (retryParams) => {
+            assert(retryParams.error instanceof Error);
+            assert(!!retryParams.request);
+            assert(retryParams.response instanceof Response);
+            assert.equal(retryParams?.retryCount, retires);
             calledRetryCallback = true;
         }
 
@@ -93,7 +93,8 @@ describe('net/http', () => {
 
         assert(calledRetryCallback);
 
-        server.close();
+        context.after(() => server?.close()?.closeAllConnections());
+
     });
 
 
@@ -149,7 +150,5 @@ describe('net/http', () => {
         const endTime = Date.now();
         assert(endTime - startTime >= ((maxRetries - 1) * retryDelay));
     });
-
-
 });
 

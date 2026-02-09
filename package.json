@@ -1,6 +1,6 @@
 {
 	"name": "@bitbeater/ecma-utils",
-	"version": "2.9.0",
+	"version": "2.10.0",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"sideEffects": false,
@@ -15,7 +15,7 @@
 			"default": "./dist/bytes.js"
 		},
 		"./http": {
-			"default": "./dist/net/http.js"
+			"default": "./dist/net/http/http.js"
 		},
 		"./utils": {
 			"default": "./dist/utils/utils.js"

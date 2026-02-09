@@ -4,7 +4,7 @@ export * as cons from './cons';
 export * as utils from './utils/utils';
 export * as log from './logger';
 export * as math from './math';
-export * as net from './net/http';
+export * as net from './net/http/http';
 export * as object from './object';
 export * as promises from './promises';
 export * as reviver from './revivers';
