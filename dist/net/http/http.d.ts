@@ -1,3 +1,7 @@
+export * from './errors.js';
+export * from './cookies.js';
+export * from './headers.js';
+export * from './methods.js';
 export type OnRetryParams = {
     request: Request | string | URL;
     requestInit?: RequestInit;

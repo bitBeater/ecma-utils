@@ -5,4 +5,5 @@ function getPathExtension(path) {
     }
     return path.substring(lastDotIndex + 1);
 }
+export {};
 //# sourceMappingURL=path.js.map

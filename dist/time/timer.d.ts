@@ -1,4 +1,4 @@
-import { Duration } from './time';
+import { Duration } from './time.js';
 /**
  * A simple timer that can be started, paused, and resumed.
  * @example

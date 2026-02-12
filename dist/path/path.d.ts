@@ -1,2 +1,2 @@
-declare function getPathExtension(path: string): string;
+export {};
 //# sourceMappingURL=path.d.ts.map

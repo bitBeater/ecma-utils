@@ -1,6 +1,11 @@
-import { parseIntOrZero } from '../../math';
-import { delay } from '../../promises';
-import { HttpError } from './errors';
+export * from './errors.js';
+export * from './cookies.js';
+export * from './headers.js';
+export * from './methods.js';
+
+import { parseIntOrZero } from '../../math.js';
+import { delay } from '../../promises.js';
+import { HttpError } from './errors.js';
 
 
 export type OnRetryParams = {

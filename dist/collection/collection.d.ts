@@ -1,4 +1,4 @@
-export { CircularArray } from './CircularArray';
-export { EvictingDequeue } from './EvictingDequeue';
-export * from './collectionOperations';
+export { CircularArray } from './CircularArray.js';
+export { EvictingDequeue } from './EvictingDequeue.js';
+export * from './collectionOperations.js';
 //# sourceMappingURL=collection.d.ts.map

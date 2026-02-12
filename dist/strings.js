@@ -1,14 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.isWhitespace = void 0;
-exports.isJson = isJson;
-exports.templateToString = templateToString;
-exports.spacedWords = spacedWords;
-exports.splitRuns = splitRuns;
-exports.isUpperCase = isUpperCase;
-exports.isPunctuation = isPunctuation;
-exports.isNumber = isNumber;
-function isJson(str) {
+export function isJson(str) {
     try {
         JSON.parse(str);
     }
@@ -29,7 +19,7 @@ function isJson(str) {
  * @param expressions
  * @returns
  */
-function templateToString(template, ...expressions) {
+export function templateToString(template, ...expressions) {
     const merged = [];
     for (let i = 0; i < template.length; i++) {
         merged.push(template[i]);
@@ -52,8 +42,8 @@ function templateToString(template, ...expressions) {
  * @param text
  * @returns [[whitespace, word], ...]
  */
-function spacedWords(text) {
-    return splitRuns(text, exports.isWhitespace);
+export function spacedWords(text) {
+    return splitRuns(text, isWhitespace);
 }
 /**
  * Splits a string into pairs of `[delimiterRun, token]`, preserving contiguous
@@ -90,7 +80,7 @@ function spacedWords(text) {
  * ]
  * ```
  * */
-function splitRuns(text, isDelimiter) {
+export function splitRuns(text, isDelimiter) {
     const result = [];
     if (!text)
         return result;
@@ -119,17 +109,16 @@ function splitRuns(text, isDelimiter) {
     flush();
     return result;
 }
-function isUpperCase(str) {
+export function isUpperCase(str) {
     return str === str.toUpperCase();
 }
-const isWhitespace = (char) => {
+export const isWhitespace = (char) => {
     return /\s/.test(char);
 };
-exports.isWhitespace = isWhitespace;
-function isPunctuation(char) {
+export function isPunctuation(char) {
     return /[.,\/#!$%\^&\*;:{}=\-_`~()]/.test(char);
 }
-function isNumber(char) {
+export function isNumber(char) {
     return /[0-9]/.test(char);
 }
 //# sourceMappingURL=strings.js.map

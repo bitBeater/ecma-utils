@@ -1,15 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.arrayDifferences = arrayDifferences;
-exports.forEachConsPairs = forEachConsPairs;
-exports.isSorted = isSorted;
-exports.lastEl = lastEl;
-exports.takeRight = takeRight;
-exports.pickRandomElement = pickRandomElement;
-exports.pickRandomElements = pickRandomElements;
-exports.takeRandomElement = takeRandomElement;
-exports.takeRandomElements = takeRandomElements;
-const utils_1 = require("../utils/utils");
+import { forEach } from '../utils/utils.js';
 /**
  *
  * Compute the element-wise absolute differences between two arrays of numbers.
@@ -21,7 +10,7 @@ const utils_1 = require("../utils/utils");
  * @param a2 array to compare
  * @returns return the array difference a1-a2
  */
-function arrayDifferences(a1 = [], a2 = []) {
+export function arrayDifferences(a1 = [], a2 = []) {
     const retVal = [];
     for (let i = 0; i < a1.length; i++)
         retVal.push(Math.abs((a1[i] || 0) - (a2[i] || 0)));
@@ -43,7 +32,7 @@ function arrayDifferences(a1 = [], a2 = []) {
  * ```
  *
  */
-function forEachConsPairs(array, fn) {
+export function forEachConsPairs(array, fn) {
     if (!array?.length || typeof fn !== 'function')
         return;
     for (let i = 1; i < array.length; i++) {
@@ -76,7 +65,7 @@ function forEachConsPairs(array, fn) {
  * @param array array to check if is sorted
  * @param compareFn function to use for comparison operation
  */
-function isSorted(array, compareFn = genericSortFunction) {
+export function isSorted(array, compareFn = genericSortFunction) {
     if (!array?.length)
         return;
     for (let i = 1; i < array.length; i++) {
@@ -103,7 +92,7 @@ const genericSortFunction = (item1, item2) => {
  *  array[array.length - 1];
  * ```
  */
-function lastEl(array) {
+export function lastEl(array) {
     return array?.[array?.length - 1];
 }
 // /**
@@ -146,7 +135,7 @@ function lastEl(array) {
  * @param offset The offset to apply for elements to take.
  * @returns Returns the slice of array.
  */
-function takeRight(array, n = 1, offset = 0) {
+export function takeRight(array, n = 1, offset = 0) {
     return array?.slice(array.length - offset - n, array.length - offset);
 }
 /**
@@ -156,7 +145,7 @@ function takeRight(array, n = 1, offset = 0) {
  * @param array
  * @returns a random element from the provided array.
  */
-function pickRandomElement(array) {
+export function pickRandomElement(array) {
     return array[Math.floor(Math.random() * array.length)];
 }
 /** *
@@ -166,7 +155,7 @@ function pickRandomElement(array) {
  * @param legth number of elements to pick
  * @returns an array of random elements from the provided array.
  */
-function pickRandomElements(array, legth) {
+export function pickRandomElements(array, legth) {
     return takeRandomElements([...array], legth);
 }
 /**
@@ -176,7 +165,7 @@ function pickRandomElements(array, legth) {
  * @param array
  * @returns a random element from the provided array.
  */
-function takeRandomElement(array) {
+export function takeRandomElement(array) {
     return array.splice(Math.floor(Math.random() * array.length), 1)[0];
 }
 /** *
@@ -187,7 +176,7 @@ function takeRandomElement(array) {
  * @param legth number of elements to pick
  * @returns an array of random elements from the provided array.
  */
-function takeRandomElements(array, legth) {
-    return (0, utils_1.forEach)(legth, () => takeRandomElement(array));
+export function takeRandomElements(array, legth) {
+    return forEach(legth, () => takeRandomElement(array));
 }
 //# sourceMappingURL=collectionOperations.js.map

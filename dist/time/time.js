@@ -1,69 +1,55 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.leapMonths = exports.months = exports.december = exports.november = exports.october = exports.september = exports.august = exports.july = exports.june = exports.may = exports.april = exports.march = exports.february = exports.january = exports.leapFebruary = exports.leapYear = exports.year = exports.month = exports.solarYear = exports.week = exports.day = exports.hour = exports.minute = exports.second = exports.millis = exports.MAX_JS_DATE = void 0;
-exports.durationToMilliSeconds = durationToMilliSeconds;
-exports.millisecondsToDuration = millisecondsToDuration;
-exports.durationToSeconds = durationToSeconds;
-exports.isDurationBiggerThanInterval = isDurationBiggerThanInterval;
-exports.splitIntervalByDuration = splitIntervalByDuration;
-exports.multiplyDuration = multiplyDuration;
-exports.addDurations = addDurations;
-exports.isValidDate = isValidDate;
-exports.toSqlDate = toSqlDate;
-exports.intervalToDuration = intervalToDuration;
-exports.humanizeDuration = humanizeDuration;
-exports.MAX_JS_DATE = 8.64e15; // Sat Sep 13 275760 00:00:00 GMT+0000
+export const MAX_JS_DATE = 8.64e15; // Sat Sep 13 275760 00:00:00 GMT+0000
 /** in millis */
-exports.millis = 1;
+export const millis = 1;
 /** in millis */
-exports.second = 1000 * exports.millis;
+export const second = 1000 * millis;
 /** in millis */
-exports.minute = 60 * exports.second;
+export const minute = 60 * second;
 /** in millis */
-exports.hour = 60 * exports.minute;
+export const hour = 60 * minute;
 /** in millis */
-exports.day = 24 * exports.hour;
+export const day = 24 * hour;
 /** in millis */
-exports.week = 7 * exports.day;
+export const week = 7 * day;
 /**
  * In millis
  * The average month is 365/12 = 30.42 days in a regular year and 366/12 = 30.50 days in a leap year. The Gregorian (western) solar calendar has 365.2425/12 = 30.436875 days on the average, varying between 28 and 31 days.
  */
-exports.solarYear = 365.25 * exports.day;
+export const solarYear = 365.25 * day;
 /** in millis */
-exports.month = exports.solarYear / 12;
+export const month = solarYear / 12;
 /** in millis */
-exports.year = 365 * exports.day;
+export const year = 365 * day;
 /** 366 days */
-exports.leapYear = 366 * exports.day;
+export const leapYear = 366 * day;
 /** 29 days */
-exports.leapFebruary = 29 * exports.day;
+export const leapFebruary = 29 * day;
 /** in millis */
-exports.january = 31 * exports.day;
+export const january = 31 * day;
 /** in millis */
-exports.february = 28 * exports.day;
+export const february = 28 * day;
 /** in millis */
-exports.march = 31 * exports.day;
+export const march = 31 * day;
 /** in millis */
-exports.april = 30 * exports.day;
+export const april = 30 * day;
 /** in millis */
-exports.may = 31 * exports.day;
+export const may = 31 * day;
 /** in millis */
-exports.june = 30 * exports.day;
+export const june = 30 * day;
 /** in millis */
-exports.july = 31 * exports.day;
+export const july = 31 * day;
 /** in millis */
-exports.august = 31 * exports.day;
+export const august = 31 * day;
 /** in millis */
-exports.september = 30 * exports.day;
+export const september = 30 * day;
 /** in millis */
-exports.october = 31 * exports.day;
+export const october = 31 * day;
 /** in millis */
-exports.november = 30 * exports.day;
+export const november = 30 * day;
 /** in millis */
-exports.december = 31 * exports.day;
-exports.months = [exports.january, exports.february, exports.march, exports.april, exports.may, exports.june, exports.july, exports.august, exports.september, exports.october, exports.november, exports.december];
-exports.leapMonths = [exports.january, exports.leapFebruary, exports.march, exports.april, exports.may, exports.june, exports.july, exports.august, exports.september, exports.october, exports.november, exports.december];
+export const december = 31 * day;
+export const months = [january, february, march, april, may, june, july, august, september, october, november, december];
+export const leapMonths = [january, leapFebruary, march, april, may, june, july, august, september, october, november, december];
 /**
  * parse a duration into millisecconds
  *
@@ -76,32 +62,32 @@ exports.leapMonths = [exports.january, exports.leapFebruary, exports.march, expo
  * durationToMilliSeconds({hours:1,minutes:1,seconds:1}) // => 3_661_000
  * ```
  */
-function durationToMilliSeconds(duration) {
-    return ((duration?.years || 0) * exports.year +
-        (duration?.months || 0) * exports.month +
-        (duration?.weeks || 0) * exports.week +
-        (duration?.days || 0) * exports.day +
-        (duration?.hours || 0) * exports.hour +
-        (duration?.minutes || 0) * exports.minute +
-        (duration?.seconds || 0) * exports.second +
-        (duration?.milliseconds || 0) * exports.millis);
+export function durationToMilliSeconds(duration) {
+    return ((duration?.years || 0) * year +
+        (duration?.months || 0) * month +
+        (duration?.weeks || 0) * week +
+        (duration?.days || 0) * day +
+        (duration?.hours || 0) * hour +
+        (duration?.minutes || 0) * minute +
+        (duration?.seconds || 0) * second +
+        (duration?.milliseconds || 0) * millis);
 }
-function millisecondsToDuration(millis) {
+export function millisecondsToDuration(millis) {
     const duration = {};
-    duration.years = Math.floor(millis / exports.year);
-    millis %= exports.year;
-    duration.months = Math.floor(millis / exports.month);
-    millis %= exports.month;
-    duration.weeks = Math.floor(millis / exports.week);
-    millis %= exports.week;
-    duration.days = Math.floor(millis / exports.day);
-    millis %= exports.day;
-    duration.hours = Math.floor(millis / exports.hour);
-    millis %= exports.hour;
-    duration.minutes = Math.floor(millis / exports.minute);
-    millis %= exports.minute;
-    duration.seconds = Math.floor(millis / exports.second);
-    millis %= exports.second;
+    duration.years = Math.floor(millis / year);
+    millis %= year;
+    duration.months = Math.floor(millis / month);
+    millis %= month;
+    duration.weeks = Math.floor(millis / week);
+    millis %= week;
+    duration.days = Math.floor(millis / day);
+    millis %= day;
+    duration.hours = Math.floor(millis / hour);
+    millis %= hour;
+    duration.minutes = Math.floor(millis / minute);
+    millis %= minute;
+    duration.seconds = Math.floor(millis / second);
+    millis %= second;
     duration.milliseconds = millis;
     return duration;
 }
@@ -117,13 +103,13 @@ function millisecondsToDuration(millis) {
  * durationToMilliSeconds({hours:1,minutes:1,seconds:1}) // => 3_661
  * ```
  */
-function durationToSeconds(duration) {
-    return durationToMilliSeconds(duration) / exports.second;
+export function durationToSeconds(duration) {
+    return durationToMilliSeconds(duration) / second;
 }
 /**
  * check if the duration is larger than the interval
  */
-function isDurationBiggerThanInterval(interval, duration) {
+export function isDurationBiggerThanInterval(interval, duration) {
     const intervalSeconds = Math.abs(interval.end.getTime() - interval.start.getTime()) / 1000;
     const durationSeconds = durationToSeconds(duration);
     return durationSeconds > intervalSeconds;
@@ -150,7 +136,7 @@ function isDurationBiggerThanInterval(interval, duration) {
  * // ]
  * ```
  */
-function splitIntervalByDuration(interval, duration) {
+export function splitIntervalByDuration(interval, duration) {
     if (!interval?.start || !interval?.end)
         return;
     if (isDurationBiggerThanInterval(interval, duration))
@@ -176,7 +162,7 @@ function splitIntervalByDuration(interval, duration) {
  * multiplyDuration(duration:Duration,multiplier:number) // => {moths:4, days:6, hours:8}
  * ```
  */
-function multiplyDuration(duration, multiplier) {
+export function multiplyDuration(duration, multiplier) {
     return {
         years: duration.years * multiplier,
         months: duration.months * multiplier,
@@ -199,7 +185,7 @@ function multiplyDuration(duration, multiplier) {
  * addDurations(duration1,duration2,duration3) // => {moths:6, days:9, hours:12}
  * ```
  */
-function addDurations(...durations) {
+export function addDurations(...durations) {
     const retval = {
         years: 0,
         months: 0,
@@ -220,7 +206,7 @@ function addDurations(...durations) {
     }
     return retval;
 }
-function isValidDate(value) {
+export function isValidDate(value) {
     return value instanceof Date && !isNaN(value.valueOf());
 }
 /**
@@ -233,7 +219,7 @@ function isValidDate(value) {
  * toSqlDate() // => "2017-06-29 17:54:04"
  *
  */
-function toSqlDate(date) {
+export function toSqlDate(date) {
     return date.toISOString().slice(0, 19).replace('T', ' ');
 }
 /**
@@ -248,7 +234,7 @@ function toSqlDate(date) {
  * // { years: 0, months: 0, weeks: 0, days: 9, hours: 0, minutes: 0, seconds: 0, milliseconds: 0 }
  * ```
  */
-function intervalToDuration(interval) {
+export function intervalToDuration(interval) {
     if (interval.end === undefined) {
         throw new Error('Invalid interval, end date is missing: ' + JSON.stringify(interval));
     }
@@ -280,7 +266,7 @@ function intervalToDuration(interval) {
  * @param options
  * @returns
  */
-function humanizeDuration(inDuration, options) {
+export function humanizeDuration(inDuration, options) {
     let duration = { ...inDuration };
     if (options?.reduce) {
         duration = millisecondsToDuration(durationToMilliSeconds(duration));

@@ -1,7 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.HttpError = void 0;
-class HttpError extends Error {
+export class HttpError extends Error {
+    response;
     constructor(response) {
         const httpErrorInfo = {
             Error: `HTTP request failed with status ${response.status}`,
@@ -15,5 +13,4 @@ class HttpError extends Error {
         this.name = 'HttpError';
     }
 }
-exports.HttpError = HttpError;
 //# sourceMappingURL=errors.js.map

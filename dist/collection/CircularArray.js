@@ -1,6 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.CircularArray = void 0;
 /**
  * A circular array implementation that allows for wrapping around the ends.
  * @example
@@ -37,10 +34,11 @@ exports.CircularArray = void 0;
  * circularArray.getPosition()   // 10
  * ```
  */
-class CircularArray {
+export class CircularArray {
+    array;
+    currentIndex = 0;
+    currentPosition = 0;
     constructor(...items) {
-        this.currentIndex = 0;
-        this.currentPosition = 0;
         this.array = items || [];
     }
     /**
@@ -130,5 +128,4 @@ class CircularArray {
         return ((position % this.array.length) + this.array.length) % this.array.length;
     }
 }
-exports.CircularArray = CircularArray;
 //# sourceMappingURL=CircularArray.js.map

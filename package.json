@@ -1,7 +1,9 @@
 {
 	"name": "@bitbeater/ecma-utils",
-	"version": "2.10.1",
+	"version": "2.10.2",
+	"type": "module",
 	"main": "dist/index.js",
+	"module": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"sideEffects": false,
 	"exports": {
@@ -34,7 +36,8 @@
 		"build": "tsc",
 		"genDocs": "npx typedoc --options typedoc.json",
 		"prettify": "prettier --config ./.prettierrc.json --write \"src/**/*.ts\"",
-		"test": "tsc && node --test -r ./node_modules/ts-node/register/transpile-only.js ./tests/{**/*,*}.test.ts"
+		"test": "tsc && node --import tsx --test  ./tests/{**/*,*}.test.ts",
+		"tag": "node scripts/make_tag.ts"
 	},
 	"author": "",
 	"license": "ISC",
@@ -62,6 +65,7 @@
 		"@types/node": "^24.3.0",
 		"prettier": "^3.7.4",
 		"ts-node": "^10.9.1",
+		"tsx": "^4.21.0",
 		"typedoc": "^0.28.11",
 		"typescript": "^5.9.2"
 	}

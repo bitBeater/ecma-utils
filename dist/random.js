@@ -1,21 +1,12 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getRandom = getRandom;
-exports.getRandomInt = getRandomInt;
-exports.getRandomBool = getRandomBool;
-exports.getRandomSign = getRandomSign;
-exports.getRandomChar = getRandomChar;
-exports.getRandomString = getRandomString;
-exports.getRandomDate = getRandomDate;
-const collectionOperations_1 = require("./collection/collectionOperations");
-const time_1 = require("./time/time");
+import { takeRandomElement } from './collection/collectionOperations.js';
+import { MAX_JS_DATE } from './time/time.js';
 /**
  * Returns a random floating-point number between min and max (inclusive).
  * @param min The minimum value.
  * @param max The maximum value.
  * @returns A random floating-point number between min and max.
  */
-function getRandom(min = Number.MIN_VALUE, max = Number.MAX_VALUE) {
+export function getRandom(min = Number.MIN_VALUE, max = Number.MAX_VALUE) {
     return Math.random() * (max - min) + min;
 }
 /**
@@ -24,7 +15,7 @@ function getRandom(min = Number.MIN_VALUE, max = Number.MAX_VALUE) {
  * @param max The maximum value.
  * @returns A random integer between min and max.
  */
-function getRandomInt(min, max) {
+export function getRandomInt(min, max) {
     return Math.floor(getRandom(min, max));
 }
 /**
@@ -32,14 +23,14 @@ function getRandomInt(min, max) {
  * @param trueProbability A number between 0 and 1 representing the probability of returning true. Default is 0.5.
  * @returns A random boolean value.
  */
-function getRandomBool(trueProbability = 0.5) {
+export function getRandomBool(trueProbability = 0.5) {
     return Math.random() < trueProbability;
 }
 /**
  * Returns either 1 or -1, with equal probability.
  * @returns Either 1 or -1.
  */
-function getRandomSign(positiveProbability = 0.5) {
+export function getRandomSign(positiveProbability = 0.5) {
     return getRandomBool(positiveProbability) ? 1 : -1;
 }
 /**]
@@ -47,8 +38,8 @@ function getRandomSign(positiveProbability = 0.5) {
  * @param chars A string containing the characters to choose from. Default is alphanumeric characters.
  * @returns A random character from the given string.
  */
-function getRandomChar(chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789') {
-    return (0, collectionOperations_1.takeRandomElement)(chars.split(''));
+export function getRandomChar(chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789') {
+    return takeRandomElement(chars.split(''));
 }
 /**
  * Returns a random string of the specified length using the given characters.
@@ -56,7 +47,7 @@ function getRandomChar(chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuv
  * @param chars A string containing the characters to choose from. Default is alphanumeric characters.
  * @returns A random string of the specified length.
  */
-function getRandomString(length, chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789') {
+export function getRandomString(length, chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789') {
     let result = '';
     for (let i = 0; i < length; i++) {
         result += getRandomChar(chars);
@@ -69,7 +60,7 @@ function getRandomString(length, chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijkl
  * @param end The end date (inclusive).
  * @returns A random date between the start and end dates.
  */
-function getRandomDate(start = new Date(0), end = new Date(time_1.MAX_JS_DATE)) {
+export function getRandomDate(start = new Date(0), end = new Date(MAX_JS_DATE)) {
     return new Date(getRandomInt(start.getTime(), end.getTime()));
 }
 /// return new Date(getRandomInt(start.getTime(), end.getTime()));

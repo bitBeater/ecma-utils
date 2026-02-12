@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.StepLogger = exports.Logger = exports.LogLevel = void 0;
-var LogLevel;
+export var LogLevel;
 (function (LogLevel) {
     LogLevel[LogLevel["TRACE"] = 0] = "TRACE";
     LogLevel[LogLevel["DEBUG"] = 1] = "DEBUG";
@@ -10,7 +7,7 @@ var LogLevel;
     LogLevel[LogLevel["ERROR"] = 4] = "ERROR";
     LogLevel[LogLevel["FATAL"] = 5] = "FATAL";
     LogLevel[LogLevel["OFF"] = 6] = "OFF";
-})(LogLevel || (exports.LogLevel = LogLevel = {}));
+})(LogLevel || (LogLevel = {}));
 const defaultLogWriter = {
     debug: (...data) => console.debug(`[${new Date().toJSON()}] DEBUG:`, ...data),
     info: (...data) => console.info(`[${new Date().toJSON()}] INFO:`, ...data),
@@ -78,11 +75,11 @@ const _logger = {
 function printStack(errors) {
     errors?.filter(e => e?.stack)?.forEach(e => console.error(e?.stack));
 }
-class Logger {
+export class Logger {
+    logLevel = LogLevel.WARN;
+    logWriter = defaultLogWriter;
+    prefix = '';
     constructor(conf) {
-        this.logLevel = LogLevel.WARN;
-        this.logWriter = defaultLogWriter;
-        this.prefix = '';
         if (typeof conf === 'string') {
             this.prefix = conf;
             return;
@@ -149,16 +146,15 @@ class Logger {
         return new StepLogger(this, name);
     }
 }
-exports.Logger = Logger;
 /**
  * Wrapper Logger that logs the start and end of a step.
  * When it is created, it logs the start of the step.
  * When the finish method is called, it logs the end of the step, and the logWriter is set to null to prevent further logging.
  */
-class StepLogger extends Logger {
+export class StepLogger extends Logger {
+    startTime = Date.now();
     constructor(logger, stepName) {
         super(logger);
-        this.startTime = Date.now();
         this.prefix = (logger.prefix ? logger.prefix + ':' : '') + stepName;
         this.info(`started`);
     }
@@ -168,5 +164,4 @@ class StepLogger extends Logger {
         this.logWriter = null;
     }
 }
-exports.StepLogger = StepLogger;
 //# sourceMappingURL=logger.js.map

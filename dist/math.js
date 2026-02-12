@@ -1,24 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.round = round;
-exports.percDiff = percDiff;
-exports.calculatePercent = calculatePercent;
-exports.weightedArithmeticMean = weightedArithmeticMean;
-exports.getPrecision = getPrecision;
-exports.getNearestMultiple = getNearestMultiple;
-exports.getNearestLowMultiple = getNearestLowMultiple;
-exports.truncateDecimals = truncateDecimals;
-exports.numberSequenceRange = numberSequenceRange;
-exports.numberSequenceByLength = numberSequenceByLength;
-exports.fibonacis = fibonacis;
-exports.parseIntOrZero = parseIntOrZero;
 /**
  *
  * @param n number to be rounded round
  * @param positions decimal positions depth to round
  * @returns the rounded number
  */
-function round(n, positions = 0) {
+export function round(n, positions = 0) {
     const exp = Math.pow(10, positions);
     return Math.round(n * exp) / exp;
 }
@@ -37,7 +23,7 @@ function round(n, positions = 0) {
  * // output: 10
  * ```
  */
-function percDiff(start, end) {
+export function percDiff(start, end) {
     return (end - start) / (start / 100);
 }
 /**
@@ -55,7 +41,7 @@ function percDiff(start, end) {
  * // output: 90
  * ```
  */
-function calculatePercent(value, percent) {
+export function calculatePercent(value, percent) {
     return value + value * (percent / 100);
 }
 /**
@@ -76,7 +62,7 @@ function calculatePercent(value, percent) {
  *
  * @link https://en.wikipedia.org/wiki/Weighted_arithmetic_mean
  */
-function weightedArithmeticMean(value, weight) {
+export function weightedArithmeticMean(value, weight) {
     /**
      *
      * I tried to optimize the performance to the maximum, to do this:
@@ -104,7 +90,7 @@ function weightedArithmeticMean(value, weight) {
  * getPrecision(0) //0
  * ```
  */
-function getPrecision(n = 0) {
+export function getPrecision(n = 0) {
     return n?.toString()?.split('.')?.[1]?.length || 0;
 }
 /**
@@ -120,7 +106,7 @@ function getPrecision(n = 0) {
  * getNearestMultiple(0.5, 0.2) // 0.4
  * ```
  */
-function getNearestMultiple(n, multiple) {
+export function getNearestMultiple(n, multiple) {
     const log = n % multiple || n;
     if (log >= multiple / 2)
         return n + multiple - log;
@@ -142,7 +128,7 @@ function getNearestMultiple(n, multiple) {
  *
  * ```
  */
-function getNearestLowMultiple(n, multiple, precision = 0) {
+export function getNearestLowMultiple(n, multiple, precision = 0) {
     var multiplier = 10 ** precision;
     var integer = n * multiplier;
     return (integer - (integer % (multiple * multiplier))) / multiplier;
@@ -155,7 +141,7 @@ function getNearestLowMultiple(n, multiple, precision = 0) {
  * truncateDecimals(5.461, 2); // => 5.46
  * ```
  */
-function truncateDecimals(n, digits) {
+export function truncateDecimals(n, digits) {
     const multiplier = Math.pow(10, digits);
     return Math.floor(n * multiplier) / multiplier;
 }
@@ -179,7 +165,7 @@ function truncateDecimals(n, digits) {
  * numberSequence({start:-1, end:5, span:1})	//	[-1,0,1,2,3,4,5]
  * ```
  */
-function numberSequenceRange(range) {
+export function numberSequenceRange(range) {
     const { start: start, end: end, span } = { ...range };
     const length = Math.floor(Math.abs(start - end) / span);
     const retVal = new Array(length);
@@ -204,7 +190,7 @@ function numberSequenceRange(range) {
  * numberSequenceByLength({ start: -1.5, span: 0.3, length: 10, direction: '+' })	// (10) [-1.5, -1.2, -0.9, -0.6000000000000001, -0.30000000000000004, 0, 0.2999999999999998, 0.6000000000000001, 0.8999999999999999, 1.1999999999999997]
  * ```
  */
-function numberSequenceByLength(len) {
+export function numberSequenceByLength(len) {
     const { start, span, length, direction } = { ...len };
     const retVal = new Array(length);
     if (direction === '-')
@@ -220,7 +206,7 @@ function numberSequenceByLength(len) {
  * Create a sequence of fibonaci numbers, from start value to end value
  *
  */
-function fibonacis(start, end) {
+export function fibonacis(start, end) {
     const retVal = [];
     var lastFib = start || 1;
     var currentFib = start * 2 || 1;
@@ -253,7 +239,7 @@ function fibonacis(start, end) {
  * @param val any value
  * @returns {number}
  */
-function parseIntOrZero(val, radix) {
+export function parseIntOrZero(val, radix) {
     //@ts-ignore
     const retVal = Number.parseInt(val, radix);
     if (isNaN(retVal))

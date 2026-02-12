@@ -1,5 +1,5 @@
-import { takeRandomElement } from './collection/collectionOperations';
-import { MAX_JS_DATE } from './time/time';
+import { takeRandomElement } from './collection/collectionOperations.js';
+import { MAX_JS_DATE } from './time/time.js';
 
 /**
  * Returns a random floating-point number between min and max (inclusive).

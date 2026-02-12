@@ -1,11 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.TaskDurationTracker = void 0;
-exports.forEach = forEach;
-exports.benchmarkFn = benchmarkFn;
-const collectionOperations_1 = require("../collection/collectionOperations");
-var task_duration_tracker_1 = require("./task_duration_tracker");
-Object.defineProperty(exports, "TaskDurationTracker", { enumerable: true, get: function () { return task_duration_tracker_1.TaskDurationTracker; } });
+import { lastEl } from '../collection/collectionOperations.js';
+export { TaskDurationTracker } from './task_duration_tracker.js';
 /**
  * @description Executes a function a specified number of times and collects the results in an array.
  * @example
@@ -16,7 +10,7 @@ Object.defineProperty(exports, "TaskDurationTracker", { enumerable: true, get: f
  * @param execs number of executions
  * @param fn function to be executed
  */
-function forEach(execs, fn) {
+export function forEach(execs, fn) {
     const results = [];
     for (var i = 0; execs; i++, execs--)
         results.push(fn(i));
@@ -28,7 +22,7 @@ function forEach(execs, fn) {
  *
  * @returns an object with min, max and mean time execution, in millis.
  */
-function benchmarkFn(fn, iterations = 1) {
+export function benchmarkFn(fn, iterations = 1) {
     const execTimes = [];
     var _iterations = iterations + 1;
     while (--_iterations) {
@@ -40,7 +34,7 @@ function benchmarkFn(fn, iterations = 1) {
     }
     const orderedExecTimes = execTimes.sort();
     const min = orderedExecTimes[0];
-    const max = (0, collectionOperations_1.lastEl)(orderedExecTimes);
+    const max = lastEl(orderedExecTimes);
     const mean = execTimes.reduce((pre, cur) => pre + cur, 0) / execTimes.length;
     return { min, max, mean };
 }

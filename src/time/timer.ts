@@ -1,4 +1,4 @@
-import { Duration, durationToMilliSeconds } from './time';
+import { Duration, durationToMilliSeconds } from './time.js';
 
 /**
  * A simple timer that can be started, paused, and resumed.

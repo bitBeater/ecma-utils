@@ -1,5 +1,5 @@
-import { lastEl } from '../collection/collection';
-import { Interval, Duration, millisecondsToDuration, durationToMilliSeconds } from '../time/time';
+import { lastEl } from '../collection/collection.js';
+import { Interval, Duration, millisecondsToDuration, durationToMilliSeconds } from '../time/time.js';
 
 /**
  * @description A utility class to track the duration of multiple tasks and estimate completion times.
@@ -55,7 +55,7 @@ export class TaskDurationTracker {
 	private intervals: Interval[] = [];
 	private creationTime = new Date();
 
-	constructor(public tasksCount: number) {}
+	constructor(public tasksCount: number) { }
 
 	/**
 	 * @description Gets the total elapsed time since the first task started.

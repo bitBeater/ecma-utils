@@ -1,8 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPathKeys = getPathKeys;
-exports.isPlainObject = isPlainObject;
-exports.keysOf = keysOf;
 /**
  * Returns an array of a given object's keys paths (own and nested key names) in a reccursive manner, iterated in the same order that a normal loop would.
  *
@@ -59,7 +54,7 @@ exports.keysOf = keysOf;
  * @param options options object
  * @returns
  */
-function getPathKeys(obj, options) {
+export function getPathKeys(obj, options) {
     if (!obj)
         return;
     if (typeof obj === 'string')
@@ -108,7 +103,7 @@ function getPathKeys(obj, options) {
  * isPlainObject(Promise.resolve(123)) // => false
  * ```
  */
-function isPlainObject(v) {
+export function isPlainObject(v) {
     return typeof v === 'object' && v !== null && !(v instanceof Date) && !Array.isArray(v) && !(v instanceof Promise);
 }
 /**
@@ -121,7 +116,7 @@ function isPlainObject(v) {
  * @param o
  * @returns
  */
-function keysOf(o) {
+export function keysOf(o) {
     return Object.keys(o);
 }
 //# sourceMappingURL=object.js.map

@@ -1,4 +1,4 @@
-export { TaskDurationTracker } from './task_duration_tracker';
+export { TaskDurationTracker } from './task_duration_tracker.js';
 /**
  * @description Executes a function a specified number of times and collects the results in an array.
  * @example

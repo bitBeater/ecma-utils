@@ -1,11 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.of = of;
-exports.delay = delay;
-function of(data) {
+export function of(data) {
     return Promise.resolve(data);
 }
-function delay(ms) {
+export function delay(ms) {
     return new Promise((resolve, _reject) => {
         setTimeout(resolve, ms);
     });

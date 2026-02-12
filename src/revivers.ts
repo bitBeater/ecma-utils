@@ -1,4 +1,4 @@
-import { ISO_8601_DATE_FORMAT_REX } from './consts';
+import { ISO_8601_DATE_FORMAT_REX } from './consts.js';
 
 /**
  * @link  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse#using_the_reviver_parameter

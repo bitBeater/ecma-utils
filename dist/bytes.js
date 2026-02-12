@@ -1,6 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.YB = exports.ZB = exports.EB = exports.PB = exports.TB = exports.GB = exports.MB = exports.kB = void 0;
 /**
  * one chilo byte as bytes.
  *
@@ -8,7 +5,7 @@ exports.YB = exports.ZB = exports.EB = exports.PB = exports.TB = exports.GB = ex
  * 2 ** 10
  * ```
  * */
-exports.kB = 2 ** 10;
+export const kB = 2 ** 10;
 /**
  * one mega byte as bytes.
  *
@@ -16,7 +13,7 @@ exports.kB = 2 ** 10;
  * 2 ** 20
  * ```
  * */
-exports.MB = 2 ** 20;
+export const MB = 2 ** 20;
 /**
  * one giga byte as bytes.
  *
@@ -24,7 +21,7 @@ exports.MB = 2 ** 20;
  * 2 ** 30
  * ```
  * */
-exports.GB = 2 ** 30;
+export const GB = 2 ** 30;
 /**
  * one tera byte as bytes.
  *
@@ -32,7 +29,7 @@ exports.GB = 2 ** 30;
  * 2 ** 40
  * ```
  * */
-exports.TB = 2 ** 40;
+export const TB = 2 ** 40;
 /**
  * one peta byte as bytes.
  *
@@ -40,7 +37,7 @@ exports.TB = 2 ** 40;
  * 2 ** 50
  * ```
  * */
-exports.PB = 2 ** 50;
+export const PB = 2 ** 50;
 /**
  * one exa byte as bytes.
  *
@@ -48,7 +45,7 @@ exports.PB = 2 ** 50;
  * 2 ** 60
  * ```
  * */
-exports.EB = 2 ** 60;
+export const EB = 2 ** 60;
 /**
  * one zetta byte as bytes.
  *
@@ -56,7 +53,7 @@ exports.EB = 2 ** 60;
  * 2 ** 70
  * ```
  * */
-exports.ZB = 2 ** 70;
+export const ZB = 2 ** 70;
 /**
  * one yotta byte as bytes.
  *
@@ -64,5 +61,5 @@ exports.ZB = 2 ** 70;
  * 2 ** 80
  * ```
  * */
-exports.YB = 2 ** 80;
+export const YB = 2 ** 80;
 //# sourceMappingURL=bytes.js.map

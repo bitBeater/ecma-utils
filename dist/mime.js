@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.MIME_EXTENSION = exports.Mime = void 0;
-var Mime;
+export var Mime;
 (function (Mime) {
     Mime["application/1d-interleaved-parityfec"] = "application/1d-interleaved-parityfec";
     Mime["application/3gpdash-qoe-report+xml"] = "application/3gpdash-qoe-report+xml";
@@ -2026,8 +2023,8 @@ var Mime;
     Mime["video/VP8"] = "video/VP8";
     Mime["video/VP9"] = "video/VP9";
     Mime[""] = "";
-})(Mime || (exports.Mime = Mime = {}));
-exports.MIME_EXTENSION = {
+})(Mime || (Mime = {}));
+export const MIME_EXTENSION = {
     [Mime['application/applixware']]: 'aw',
     [Mime['application/atom+xml']]: 'atom',
     [Mime['application/atomcat+xml']]: 'atomcat',

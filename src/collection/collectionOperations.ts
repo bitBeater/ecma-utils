@@ -1,4 +1,4 @@
-import { forEach } from '../utils/utils';
+import { forEach } from '../utils/utils.js';
 
 /**
  *

@@ -1,9 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.cookieStringToObject = cookieStringToObject;
-exports.cookieObjectToString = cookieObjectToString;
-exports.cookieArrayToString = cookieArrayToString;
-function cookieStringToObject(cookie) {
+export function cookieStringToObject(cookie) {
     const cookies = {};
     const parts = cookie.split(';');
     for (const part of parts) {
@@ -13,14 +8,14 @@ function cookieStringToObject(cookie) {
     }
     return cookies;
 }
-function cookieObjectToString(cookie) {
+export function cookieObjectToString(cookie) {
     const parts = [];
     for (const key in cookie) {
         parts.push(`${key}=${cookie[key]}`);
     }
     return parts.join('; ');
 }
-function cookieArrayToString(cookies) {
+export function cookieArrayToString(cookies) {
     const parts = [];
     for (const cookie of cookies) {
         parts.push(`${cookie[0]}=${cookie[1]}`);

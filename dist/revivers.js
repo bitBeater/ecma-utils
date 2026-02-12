@@ -1,16 +1,11 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ISO_8601StringtoDate = void 0;
-exports.mergeRevivers = mergeRevivers;
-const consts_1 = require("./consts");
+import { ISO_8601_DATE_FORMAT_REX } from './consts.js';
 /**
  * revive
  * @param _key
  * @param value
  * @returns
  */
-const ISO_8601StringtoDate = (_key, value) => (typeof value === 'string' && consts_1.ISO_8601_DATE_FORMAT_REX.test(value) ? new Date(value) : value);
-exports.ISO_8601StringtoDate = ISO_8601StringtoDate;
+export const ISO_8601StringtoDate = (_key, value) => (typeof value === 'string' && ISO_8601_DATE_FORMAT_REX.test(value) ? new Date(value) : value);
 /**
  * merge multiple reviver in one, the resulted value is equal to the result of the first reviver that resolve,
  * so reviver order determine theire priority
@@ -19,7 +14,7 @@ exports.ISO_8601StringtoDate = ISO_8601StringtoDate;
  * @returns
  * @link  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse#using_the_reviver_parameter
  */
-function mergeRevivers(...revivers) {
+export function mergeRevivers(...revivers) {
     if (!revivers?.length)
         return;
     return (key, value) => {

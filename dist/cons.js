@@ -1,14 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.logColors = void 0;
-exports.printNl = printNl;
-exports.printObj = printObj;
-function printNl(n = 5) {
+export function printNl(n = 5) {
     for (let i = 0; i < n; i++) {
         console.log();
     }
 }
-exports.logColors = {
+export const logColors = {
     reset: '\x1b[0m',
     bright: '\x1b[1m',
     dim: '\x1b[2m',
@@ -41,7 +36,7 @@ exports.logColors = {
         crimson: '\x1b[48m',
     },
 };
-function printObj(obj) {
+export function printObj(obj) {
     for (const key of Object.keys(obj)) {
         console.log(key, ' : ', obj[key]);
     }

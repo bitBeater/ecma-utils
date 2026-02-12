@@ -1,10 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Method = void 0;
 /**
  * @link https://nodejs.dev/learn/the-nodejs-http-module#httpmethods
  */
-var Method;
+export var Method;
 (function (Method) {
     Method["ACL"] = "ACL";
     Method["BIND"] = "BIND";
@@ -39,5 +36,5 @@ var Method;
     Method["UNLINK"] = "UNLINK";
     Method["UNLOCK"] = "UNLOCK";
     Method["UNSUBSCRIBE"] = "UNSUBSCRIBE";
-})(Method || (exports.Method = Method = {}));
+})(Method || (Method = {}));
 //# sourceMappingURL=methods.js.map

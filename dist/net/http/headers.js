@@ -1,10 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Header = void 0;
 /**
  * @link https://www.iana.org/assignments/http-fields/http-fields.xhtml
  */
-var Header;
+export var Header;
 (function (Header) {
     Header["Accept-Datetime"] = "Accept-Datetime";
     Header["Accept-Encoding"] = "Accept-Encoding";
@@ -224,5 +221,5 @@ var Header;
     Header["X-Device-User-Agent"] = "X-Device-User-Agent";
     Header["X-Frame-Options"] = "X-Frame-Options";
     Header["*"] = "*";
-})(Header || (exports.Header = Header = {}));
+})(Header || (Header = {}));
 //# sourceMappingURL=headers.js.map

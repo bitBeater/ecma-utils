@@ -1,8 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.TaskDurationTracker = void 0;
-const collection_1 = require("../collection/collection");
-const time_1 = require("../time/time");
+import { lastEl } from '../collection/collection.js';
+import { millisecondsToDuration, durationToMilliSeconds } from '../time/time.js';
 /**
  * @description A utility class to track the duration of multiple tasks and estimate completion times.
  * - It records the start and end times of each task, calculates elapsed time, estimates remaining time,
@@ -53,11 +50,12 @@ const time_1 = require("../time/time");
  * @see {@link Duration}
  * @see {@link Interval}
  */
-class TaskDurationTracker {
+export class TaskDurationTracker {
+    tasksCount;
+    intervals = [];
+    creationTime = new Date();
     constructor(tasksCount) {
         this.tasksCount = tasksCount;
-        this.intervals = [];
-        this.creationTime = new Date();
     }
     /**
      * @description Gets the total elapsed time since the first task started.
@@ -65,7 +63,7 @@ class TaskDurationTracker {
      */
     getElapsedTime() {
         const milliseconds = new Date().getTime() - this.getStartTime().getTime();
-        return (0, time_1.millisecondsToDuration)(milliseconds);
+        return millisecondsToDuration(milliseconds);
     }
     /**
      * @description Estimates the total time taken to complete all tasks.
@@ -73,14 +71,14 @@ class TaskDurationTracker {
     getEstimatedCompletionTime() {
         const meanTime = this.getMeanTimePerTask();
         const remainingTasks = this.getRemainingTasks();
-        const remainingMillis = (0, time_1.durationToMilliSeconds)(meanTime) * remainingTasks;
-        return (0, time_1.millisecondsToDuration)(remainingMillis);
+        const remainingMillis = durationToMilliSeconds(meanTime) * remainingTasks;
+        return millisecondsToDuration(remainingMillis);
     }
     /**
      * @description Gets the expected finish time for all tasks.
      */
     getExpectedFinishTime() {
-        const remainingMillis = (0, time_1.durationToMilliSeconds)(this.getEstimatedCompletionTime());
+        const remainingMillis = durationToMilliSeconds(this.getEstimatedCompletionTime());
         return new Date(Date.now() + remainingMillis);
     }
     /**
@@ -112,7 +110,7 @@ class TaskDurationTracker {
             return acc;
         }, 0);
         const meanMillis = totalMillis / this.intervals.length;
-        return (0, time_1.millisecondsToDuration)(Math.round(meanMillis));
+        return millisecondsToDuration(Math.round(meanMillis));
     }
     /**
      * @description Adds a task interval to the tracker.
@@ -135,10 +133,9 @@ class TaskDurationTracker {
      */
     recordTaskEnd() {
         this.intervals.push({
-            start: (0, collection_1.lastEl)(this.intervals)?.end || this.creationTime,
+            start: lastEl(this.intervals)?.end || this.creationTime,
             end: new Date(),
         });
     }
 }
-exports.TaskDurationTracker = TaskDurationTracker;
 //# sourceMappingURL=task_duration_tracker.js.map

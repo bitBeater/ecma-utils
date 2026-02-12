@@ -1,19 +1,4 @@
-"use strict";
-var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
-    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
-    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
-};
-var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
-    if (kind === "m") throw new TypeError("Private method is not writable");
-    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
-    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
-};
-var _Timer_started, _Timer_paused, _Timer_running, _Timer_completed;
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Timer = void 0;
-const time_1 = require("./time");
+import { durationToMilliSeconds } from './time.js';
 /**
  * A simple timer that can be started, paused, and resumed.
  * @example
@@ -39,43 +24,48 @@ const time_1 = require("./time");
  * }, 5000);
  * ```
  */
-class Timer {
+export class Timer {
+    duration;
+    onComplete;
+    /**
+     * The time when the timer was started for the first time
+     */
+    startTime = -1;
+    /** The time when the timer finished */
+    finishedTime = -1;
+    /** The time when the timer was started last time */
+    lastStartTime = 0;
+    /** The running elapsed time*/
+    elapsedMs = 0;
+    /** milliseconds to be timed  */
+    durationMs = 0;
+    timeoutId;
+    /**
+     *  Indicates whether the timer has been started at least once.
+     */
+    #started = false;
+    /**
+     * Indicates whether the timer is currently paused.
+     */
+    #paused = false;
+    /**
+     * Indicates whether the timer is running.
+     */
+    #running = false;
+    /**
+     * Indicates whether the timer has completed.
+     */
+    #completed = false;
+    onPause;
+    onStart;
     constructor(duration, onComplete) {
         this.duration = duration;
         this.onComplete = onComplete;
-        /**
-         * The time when the timer was started for the first time
-         */
-        this.startTime = -1;
-        /** The time when the timer finished */
-        this.finishedTime = -1;
-        /** The time when the timer was started last time */
-        this.lastStartTime = 0;
-        /** The running elapsed time*/
-        this.elapsedMs = 0;
-        /** milliseconds to be timed  */
-        this.durationMs = 0;
-        /**
-         *  Indicates whether the timer has been started at least once.
-         */
-        _Timer_started.set(this, false);
-        /**
-         * Indicates whether the timer is currently paused.
-         */
-        _Timer_paused.set(this, false);
-        /**
-         * Indicates whether the timer is running.
-         */
-        _Timer_running.set(this, false);
-        /**
-         * Indicates whether the timer has completed.
-         */
-        _Timer_completed.set(this, false);
         if (typeof this.duration === 'number') {
             this.durationMs = this.duration;
         }
         else {
-            this.durationMs = (0, time_1.durationToMilliSeconds)(this.duration);
+            this.durationMs = durationToMilliSeconds(this.duration);
         }
     }
     /**
@@ -84,19 +74,19 @@ class Timer {
      * @returns The time left in milliseconds
      */
     start() {
-        if (__classPrivateFieldGet(this, _Timer_running, "f") || __classPrivateFieldGet(this, _Timer_completed, "f"))
+        if (this.#running || this.#completed)
             return;
-        if (!__classPrivateFieldGet(this, _Timer_started, "f")) {
+        if (!this.#started) {
             this.startTime = Date.now();
-            __classPrivateFieldSet(this, _Timer_started, true, "f");
+            this.#started = true;
         }
-        __classPrivateFieldSet(this, _Timer_running, true, "f");
-        __classPrivateFieldSet(this, _Timer_paused, false, "f");
+        this.#running = true;
+        this.#paused = false;
         this.lastStartTime = Date.now();
         const timeLeftMs = this.durationMs - this.elapsedMs;
         this.timeoutId = setTimeout(() => {
-            __classPrivateFieldSet(this, _Timer_running, __classPrivateFieldSet(this, _Timer_paused, false, "f"), "f");
-            __classPrivateFieldSet(this, _Timer_completed, true, "f");
+            this.#running = this.#paused = false;
+            this.#completed = true;
             this.finishedTime = Date.now();
             const totalDuration = this.finishedTime - this.startTime;
             this.onComplete?.(totalDuration);
@@ -110,10 +100,10 @@ class Timer {
      * @returns The elapsed time in milliseconds
      */
     pause() {
-        if (!__classPrivateFieldGet(this, _Timer_running, "f"))
+        if (!this.#running)
             return;
-        __classPrivateFieldSet(this, _Timer_running, false, "f");
-        __classPrivateFieldSet(this, _Timer_paused, true, "f");
+        this.#running = false;
+        this.#paused = true;
         clearTimeout(this.timeoutId);
         this.elapsedMs += Date.now() - this.lastStartTime;
         this.onPause?.(this.elapsedMs);
@@ -123,25 +113,25 @@ class Timer {
      * Indicates whether the timer is currently paused.
      */
     get paused() {
-        return __classPrivateFieldGet(this, _Timer_paused, "f");
+        return this.#paused;
     }
     /**
      * Indicates whether the timer has completed.
      */
     get completed() {
-        return __classPrivateFieldGet(this, _Timer_completed, "f");
+        return this.#completed;
     }
     /**
      * Indicates whether the timer is running.
      */
     get running() {
-        return __classPrivateFieldGet(this, _Timer_running, "f");
+        return this.#running;
     }
     /**
      *  Indicates whether the timer has been started at least once.
      */
     get started() {
-        return __classPrivateFieldGet(this, _Timer_started, "f");
+        return this.#started;
     }
     /**
      * Time elapsed while timer was running in milliseconds.
@@ -149,11 +139,11 @@ class Timer {
      * @return Elapsed time in milliseconds
      */
     elapsedTime() {
-        if (!__classPrivateFieldGet(this, _Timer_started, "f"))
+        if (!this.#started)
             return 0;
-        if (__classPrivateFieldGet(this, _Timer_paused, "f"))
+        if (this.#paused)
             return this.elapsedMs;
-        if (__classPrivateFieldGet(this, _Timer_completed, "f"))
+        if (this.#completed)
             return this.durationMs;
         return this.elapsedMs + (Date.now() - this.lastStartTime);
     }
@@ -163,9 +153,9 @@ class Timer {
      * @return Total elapsed time in milliseconds
      */
     totalElapsedTime() {
-        if (!__classPrivateFieldGet(this, _Timer_started, "f"))
+        if (!this.#started)
             return 0;
-        if (__classPrivateFieldGet(this, _Timer_completed, "f"))
+        if (this.#completed)
             return this.finishedTime - this.startTime;
         return Date.now() - this.startTime;
     }
@@ -177,6 +167,4 @@ class Timer {
         return this.durationMs - this.elapsedTime();
     }
 }
-exports.Timer = Timer;
-_Timer_started = new WeakMap(), _Timer_paused = new WeakMap(), _Timer_running = new WeakMap(), _Timer_completed = new WeakMap();
 //# sourceMappingURL=timer.js.map
