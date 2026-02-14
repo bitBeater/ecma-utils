@@ -4,19 +4,10 @@ import { logColors } from "@bitbeater/ecma-utils/cons";
 import { readSync } from "node:fs";
 import packageJson from '../package.json' with { type: 'json' };
 
-
-
 const msg = process.argv[2];
 process.chdir(PROJETCT_ROOT);
 
-
-
-
-
-
 function chekArguments() {
-
-
     if (!msg) {
         console.error('Usage: npm run tag <message>');
         process.exit(1);

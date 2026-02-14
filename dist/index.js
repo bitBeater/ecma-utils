@@ -10,4 +10,5 @@ export * as promises from './promises.js';
 export * as reviver from './revivers.js';
 export * as strings from './strings.js';
 export * as time from './time/time.js';
+export * as streams from './streams.js';
 //# sourceMappingURL=index.js.map
