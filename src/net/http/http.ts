@@ -7,7 +7,6 @@ import { parseIntOrZero } from '../../math.js';
 import { delay } from '../../promises.js';
 import { HttpError } from './errors.js';
 
-
 export type OnRetryParams = {
 	request: Request | string | URL;
 	requestInit?: RequestInit;
@@ -18,8 +17,8 @@ export type OnRetryParams = {
 
 /**
  *  RetryCallBack is a callback function that is called just before a retry is attempted.
- * 
- * @param options 
+ *
+ * @param options
  * @returns boolean - return true to abort the retry.
  */
 export type RetryCallBack = (retryParams: OnRetryParams) => true | void;
@@ -39,11 +38,10 @@ export interface HttpRequestInit extends RequestInit {
 
 export type HttpRequestInput = Request | string | URL;
 
-
 /**
  * @abstraction http is a wrapper around the Fetch API that adds support for request timeouts and retries.
- * @param request 
- * @param requestInit 
+ * @param request
+ * @param requestInit
  * @returns Promise<Response>
  * @throws HttpError - if the response status is not ok (2xx).
  * @throws Error - if the request fails due to network errors.
@@ -58,33 +56,29 @@ export function http(request: HttpRequestInput, requestInit: HttpRequestInit = {
 	if (requestInit.signal) controller?.signal?.addEventListener('abort', e => requestInit.signal?.dispatchEvent(e));
 	else requestInit.signal = controller?.signal;
 
-	const doRequest = () => fetch(request, requestInit)
-		.finally(() => clearTimeout(reqTimeOutTimer))
-		.then(async (response: Response) => {
-			if (response.ok) return response;
-			throw new HttpError(response);
-		})
-		.catch((error: Error) => {
+	const doRequest = () =>
+		fetch(request, requestInit)
+			.finally(() => clearTimeout(reqTimeOutTimer))
+			.then(async (response: Response) => {
+				if (response.ok) return response;
+				throw new HttpError(response);
+			})
+			.catch((error: Error) => {
+				let response: Response;
 
-			let response: Response;
+				if (error instanceof HttpError) response = error?.response;
 
-			if (error instanceof HttpError)
-				response = error?.response;
+				if (!response?.body?.locked) response?.body?.cancel();
 
-			if (!response?.body?.locked)
-				response?.body?.cancel()
+				if (retryCount >= maxRetries - 1) throw error;
 
-			if (retryCount >= maxRetries - 1)
-				throw error;
+				retryCount++;
 
-			retryCount++;
+				const abort = requestInit?.retry?.onRetry?.({ request, requestInit, retryCount, error, response });
+				if (abort) throw error;
 
-			const abort = requestInit?.retry?.onRetry?.({ request, requestInit, retryCount, error, response });
-			if (abort) throw error;
-
-			return delay(retryDelay).then(() => doRequest());
-		});
-
+				return delay(retryDelay).then(() => doRequest());
+			});
 
 	return doRequest();
 }
@@ -95,7 +89,6 @@ export function toURL(httpRequest: HttpRequestInput): URL {
 }
 
 function requestTimeout(options?: HttpRequestInit) {
-
 	if (!options?.timeout) return {};
 
 	const controller = new AbortController();

@@ -48,8 +48,49 @@ export const october = 31 * day;
 export const november = 30 * day;
 /** in millis */
 export const december = 31 * day;
-export const months = [january, february, march, april, may, june, july, august, september, october, november, december];
-export const leapMonths = [january, leapFebruary, march, april, may, june, july, august, september, october, november, december];
+export const months = [
+    january,
+    february,
+    march,
+    april,
+    may,
+    june,
+    july,
+    august,
+    september,
+    october,
+    november,
+    december,
+];
+export const leapMonths = [
+    january,
+    leapFebruary,
+    march,
+    april,
+    may,
+    june,
+    july,
+    august,
+    september,
+    october,
+    november,
+    december,
+];
+/**
+ *  Check if the given value is an interval, it should have at least a start or an end Date.
+ * @example
+ * ```js
+ * isInterval({start:new Date()}) // => true
+ * isInterval({end:new Date()}) // => true
+ * isInterval({start:new Date(), end:new Date()}) // => true
+ * isInterval({start:'2023-01-01', end:'2023-01-01'}) // => false
+ *
+ * @param value
+ * @returns
+ */
+export function isInterval(value) {
+    return value?.start instanceof Date || value?.end instanceof Date;
+}
 /**
  * parse a duration into millisecconds
  *
@@ -217,10 +258,9 @@ export function isValidDate(value) {
  * ```js
  * const date = new Date();
  * toSqlDate() // => "2017-06-29 17:54:04"
- *
  */
 export function toSqlDate(date) {
-    return date.toISOString().slice(0, 19).replace('T', ' ');
+    return date.toISOString().slice(0, 19).replace("T", " ");
 }
 /**
  * Convert an interval to a duration
@@ -236,15 +276,18 @@ export function toSqlDate(date) {
  */
 export function intervalToDuration(interval) {
     if (interval.end === undefined) {
-        throw new Error('Invalid interval, end date is missing: ' + JSON.stringify(interval));
+        throw new Error("Invalid interval, end date is missing: " +
+            JSON.stringify(interval));
     }
     if (interval.start === undefined) {
-        throw new Error('Invalid interval, start date is missing: ' + JSON.stringify(interval));
+        throw new Error("Invalid interval, start date is missing: " +
+            JSON.stringify(interval));
     }
     const start = interval.start.getTime();
     const end = interval.end.getTime();
     if (start > end) {
-        throw new Error('Invalid interval, end date is before start date: ' + JSON.stringify(interval));
+        throw new Error("Invalid interval, end date is before start date: " +
+            JSON.stringify(interval));
     }
     let durationInMs = end - start;
     const duration = millisecondsToDuration(durationInMs);
@@ -272,30 +315,38 @@ export function humanizeDuration(inDuration, options) {
         duration = millisecondsToDuration(durationToMilliSeconds(duration));
     }
     const parts = [];
-    if (duration.years)
-        parts.push(`${duration.years} year${duration.years > 1 ? 's' : ''}`);
-    if (duration.months)
-        parts.push(`${duration.months} month${duration.months > 1 ? 's' : ''}`);
-    if (duration.weeks)
-        parts.push(`${duration.weeks} week${duration.weeks > 1 ? 's' : ''}`);
-    if (duration.days)
-        parts.push(`${duration.days} day${duration.days > 1 ? 's' : ''}`);
-    if (duration.hours)
-        parts.push(`${duration.hours} hour${duration.hours > 1 ? 's' : ''}`);
-    if (duration.minutes)
-        parts.push(`${duration.minutes} minute${duration.minutes > 1 ? 's' : ''}`);
-    if (duration.seconds)
-        parts.push(`${duration.seconds} second${duration.seconds > 1 ? 's' : ''}`);
-    if (duration.milliseconds)
-        parts.push(`${duration.milliseconds} millisecond${duration.milliseconds > 1 ? 's' : ''}`);
+    if (duration.years) {
+        parts.push(`${duration.years} year${duration.years > 1 ? "s" : ""}`);
+    }
+    if (duration.months) {
+        parts.push(`${duration.months} month${duration.months > 1 ? "s" : ""}`);
+    }
+    if (duration.weeks) {
+        parts.push(`${duration.weeks} week${duration.weeks > 1 ? "s" : ""}`);
+    }
+    if (duration.days) {
+        parts.push(`${duration.days} day${duration.days > 1 ? "s" : ""}`);
+    }
+    if (duration.hours) {
+        parts.push(`${duration.hours} hour${duration.hours > 1 ? "s" : ""}`);
+    }
+    if (duration.minutes) {
+        parts.push(`${duration.minutes} minute${duration.minutes > 1 ? "s" : ""}`);
+    }
+    if (duration.seconds) {
+        parts.push(`${duration.seconds} second${duration.seconds > 1 ? "s" : ""}`);
+    }
+    if (duration.milliseconds) {
+        parts.push(`${duration.milliseconds} millisecond${duration.milliseconds > 1 ? "s" : ""}`);
+    }
     // handle singular case
     if (parts.length === 1) {
         return parts[0];
     }
     if (parts.length === 0) {
-        return '0 milliseconds';
+        return "0 milliseconds";
     }
     const last = parts.pop();
-    return parts.join(', ') + ' and ' + last;
+    return parts.join(", ") + " and " + last;
 }
 //# sourceMappingURL=time.js.map

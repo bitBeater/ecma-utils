@@ -65,6 +65,19 @@ export interface Interval {
     end?: Date;
 }
 /**
+ *  Check if the given value is an interval, it should have at least a start or an end Date.
+ * @example
+ * ```js
+ * isInterval({start:new Date()}) // => true
+ * isInterval({end:new Date()}) // => true
+ * isInterval({start:new Date(), end:new Date()}) // => true
+ * isInterval({start:'2023-01-01', end:'2023-01-01'}) // => false
+ *
+ * @param value
+ * @returns
+ */
+export declare function isInterval(value: any): value is Interval;
+/**
  * parse a duration into millisecconds
  *
  * @example
@@ -151,7 +164,6 @@ export declare function isValidDate(value: any): value is Date;
  * ```js
  * const date = new Date();
  * toSqlDate() // => "2017-06-29 17:54:04"
- *
  */
 export declare function toSqlDate(date: Date): string;
 /**

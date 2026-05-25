@@ -55,7 +55,7 @@ export class TaskDurationTracker {
 	private intervals: Interval[] = [];
 	private creationTime = new Date();
 
-	constructor(public tasksCount: number) { }
+	constructor(public tasksCount: number) {}
 
 	/**
 	 * @description Gets the total elapsed time since the first task started.
